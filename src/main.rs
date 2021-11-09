@@ -1,3 +1,5 @@
+mod departments;
+
 fn main() {
-    println!("Hello, world!");
+    departments::manage::add(String::from("Accounting"), None);
 }
