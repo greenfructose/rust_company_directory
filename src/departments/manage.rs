@@ -14,7 +14,7 @@ pub fn add(name: String, employees: Option<Vec<Employee>>) -> Result<(), Error>{
         let db = DB::open("database.db")?;
         let mut tx = db.tx(true)?;
         let dept_bucket = tx.create_bucket("departments")?;
-        let dept_bytes = rmp_serde::to_vec(&dept).unwrap()?;
+        let dept_bytes = rmp_serde::to_vec(&dept).unwrap();
         dept_bucket.put(b"dept", dept_bytes)?;
         tx.commit()?;
     }
