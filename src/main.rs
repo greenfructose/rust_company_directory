@@ -13,7 +13,7 @@ fn main() {
     // let role = users::manage::Role::SuperAdmin;
     // users::manage::add(name, username, password, role);
     // users::manage::list();
-    users::manage::get(0);
+    users::manage::list();
     webbrowser::open("http://127.0.0.1:8080");
     ui::server::main();
 }

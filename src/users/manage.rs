@@ -29,16 +29,16 @@ pub fn add(name: String, username: String, password: String, role: Role) -> Resu
     }
 }
 
-pub fn get(id: u64){
-    let db = DB::open("database.db")?;
-    let mut tx = db.tx(false)?;
-    let bucket = tx.get_bucket("users")?;
-    let id_string = String::from(id);
-    if let Some(kv) = bucket.get_kv("id") {
-        assert_eq!(kv.value(), b(id_string));
-    }
-
-}
+// pub fn get(id: u64){
+//     let db = DB::open("database.db")?;
+//     let mut tx = db.tx(false)?;
+//     let bucket = tx.get_bucket("users")?;
+//     let id_string = String::from(id);
+//     if let Some(kv) = bucket.get_kv("id") {
+//         assert_eq!(kv.value(), b(id_string));
+//     }
+//
+// }
 
 pub fn list() -> Result<(), Error>{
         let db = DB::open("database.db")?;
@@ -49,6 +49,7 @@ pub fn list() -> Result<(), Error>{
                 let kv = data.kv();
                 let db_user: User = rmp_serde::from_slice(kv.value()).unwrap();
                 println!("Found {:?}", db_user);
+                assert!(bcrypt::verify("password", &db_user.password))
             }
         }
     {
