@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 jammdb = "0.5.0"
-serde = "1.0.130"
+serde = { version = "1.0", features = ["derive"] }
 rmp-serde = "0.15.5"
