@@ -1,7 +1,9 @@
 use actix_web::{HttpServer, web, App};
 use actix_files as fs;
+use actix_web_grants::GrantsMiddleware;
 use tera::Tera;
 use crate::ui::apps::{index, employees, departments};
+// use crate::ui::middleware::{extract};
 
 #[actix_web::main]
 pub async fn main() -> std::io::Result<()> {
@@ -11,6 +13,7 @@ pub async fn main() -> std::io::Result<()> {
             concat!(env!("CARGO_MANIFEST_DIR"), "/src/ui/templates/**/*")
         ).unwrap();
         App::new()
+            // .wrap(GrantsMiddleware::with_extractor(extract))
             .data(AppData{tmpl: tera})
             .service(fs::Files::new("/static", "./src/ui/static").show_files_listing())
             .service(web::resource("/")
