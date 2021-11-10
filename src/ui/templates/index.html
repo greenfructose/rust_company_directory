@@ -1,15 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
-      </div>
+<div class="d-flex p-2 bd-highlight justify-content-center">
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Employees</h5>
+                <p class="card-text">Click below to see a list of employees and their departments.</p>
+                <a href="employees" class="card-link">Employees</a>
+              </div>
+            </div>
+        </div>
+       <div class="col">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Departments</h5>
+                <p class="card-text">Click below to see a list of departments and their employees.</p>
+                <a href="departments" class="card-link">Department</a>
+              </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
