@@ -3,6 +3,7 @@ mod employees;
 mod ui;
 mod users;
 use webbrowser;
+// use rust_company_directory::departments::manage::Department;
 // use rust_company_directory::users::manage::Role::SuperAdmin;
 
 fn main() {

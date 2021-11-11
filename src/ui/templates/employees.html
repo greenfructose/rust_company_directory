@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Employees will go here</h1>
-{% for user in users %}
-<p>{{ user.name }}</p>
+{% for employee in employees %}
+<p>{{ employee.first_name }}</p>
 {% endfor %}
 {% endblock content %}

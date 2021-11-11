@@ -7,7 +7,7 @@ use pwhash::bcrypt;
 use crate::employees::manage::Employee;
 
 
-pub fn put(name: String, username: String, password: String, role: Role) -> Result<(), Error>{
+pub fn put(first_name: String, last_name: String, username: String, password: String, role: Role) -> Result<(), Error>{
     {
         let db = DB::open("database.db")?;
         let mut tx = db.tx(true)?;
@@ -15,7 +15,8 @@ pub fn put(name: String, username: String, password: String, role: Role) -> Resu
         let id = user_bucket.next_int();
         let mut user = User {
             id,
-            name,
+            first_name,
+            last_name,
             username,
             password,
             role
@@ -69,14 +70,15 @@ pub fn list() -> Result<Vec<User>, Error>{
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct User {
     id: u64,
-    name: String,
+    first_name: String,
+    last_name: String,
     username: String,
     password: String,
     role: Role,
 }
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-struct UserList {
-    users: Vec<User>,
+pub(crate) struct UserList {
+    pub(crate) users: Vec<User>,
 }
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub enum Role {

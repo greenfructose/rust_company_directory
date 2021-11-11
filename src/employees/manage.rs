@@ -3,7 +3,7 @@ use jammdb::{DB, Data, Error};
 use serde::{Deserialize, Serialize};
 use rmp_serde::{Deserializer, Serializer};
 
-pub fn put(first_name: String, last_name: String, extension: String, title: String, department: Department) -> Result<(), Error>{
+pub fn put(first_name: String, last_name: String, extension: String, title: String, department: Option<Department>) -> Result<(), Error>{
     {
         let db = DB::open("database.db")?;
         let mut tx = db.tx(true)?;
@@ -68,10 +68,10 @@ pub struct Employee {
     last_name: String,
     extension: String,
     title: String,
-    department: Department,
+    department: Option<Department>,
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct EmployeeList {
-    employees: Vec<Employee>,
+    pub(crate) employees: Vec<Employee>,
 }

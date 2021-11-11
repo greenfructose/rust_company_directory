@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use rmp_serde::{Deserializer, Serializer};
 use crate::employees::manage::{Employee, EmployeeList};
 
-pub fn put(name: String, employees: EmployeeList) -> Result<(), Error>{
+pub fn put(name: String, employees: Option<EmployeeList>) -> Result<(), Error>{
     {
         let db = DB::open("database.db")?;
         let mut tx = db.tx(true)?;
@@ -63,6 +63,11 @@ pub fn list() -> Result<Vec<Department>, Error>{
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct Department {
     id: u64,
-    name: String,
-    employees: EmployeeList,
+    pub name: String,
+    pub employees: Option<EmployeeList>,
+}
+
+#[derive(Debug, PartialEq, Deserialize, Serialize)]
+struct DepartmentList {
+    departments: Vec<Department>,
 }
