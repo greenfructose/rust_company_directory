@@ -22,7 +22,11 @@ pub async fn employees(data: web::Data<AppData>, req: HttpRequest) -> impl Respo
     let employees = EmployeeList {
         employees: employees::manage::list().unwrap(),
     };
+        let departments = DepartmentList {
+        departments: departments::manage::list().unwrap(),
+    };
     ctx.insert("employees", &employees.employees);
+    ctx.insert("departments", &departments.departments);
     let rendered = data.tmpl.render("employees.html", &ctx).unwrap();
     HttpResponse::Ok()
         .body(rendered)
