@@ -1,5 +1,6 @@
 // bookmark https://crates.io/crates/jammdb
 
+use std::marker::PhantomData;
 use jammdb::{DB, Data, Error};
 use serde::{Deserialize, Serialize};
 use rmp_serde::{Deserializer, Serializer};
@@ -25,7 +26,7 @@ pub fn put(name: String, employees: Option<EmployeeList>) -> Result<(), Error>{
     }
 }
 
-pub fn get(id: u64) -> Result<Department, Error> {
+pub fn get(id: u64) -> Result<Department<'static>, Error> {
     let db = DB::open("database.db")?;
     let mut tx = db.tx(false)?;
     let bucket = tx.get_bucket("departments")?;
@@ -43,7 +44,7 @@ pub fn get(id: u64) -> Result<Department, Error> {
     }
 }
 
-pub fn list() -> Result<Vec<Department>, Error>{
+pub fn list() -> Result<Vec<Department<'static>>, Error>{
         let db = DB::open("database.db")?;
         let mut tx = db.tx(false)?;
         let bucket = tx.get_bucket("departments")?;
@@ -61,13 +62,17 @@ pub fn list() -> Result<Vec<Department>, Error>{
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-pub struct Department {
+pub struct Department<'a, T: 'a> {
     id: u64,
-    pub name: String,
-    pub employees: Option<EmployeeList>,
+    name: String,
+    employees: Option<EmployeeList<'static>>,
+    phantom: PhantomData<&'a T>,
+
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-struct DepartmentList {
-    departments: Vec<Department>,
+pub struct DepartmentList<'a, T: 'a> {
+    pub(crate) departments: Vec<Department<&'static>>,
+    phantom: PhantomData<&'a T>,
 }
+

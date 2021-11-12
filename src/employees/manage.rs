@@ -3,7 +3,7 @@ use jammdb::{DB, Data, Error};
 use serde::{Deserialize, Serialize};
 use rmp_serde::{Deserializer, Serializer};
 
-pub fn put(first_name: String, last_name: String, extension: String, title: String, department: Option<Department>) -> Result<(), Error>{
+pub fn put(first_name: String, last_name: String, extension: String, title: String, department: &Department) -> Result<(), Error>{
     {
         let db = DB::open("database.db")?;
         let mut tx = db.tx(true)?;
@@ -15,7 +15,7 @@ pub fn put(first_name: String, last_name: String, extension: String, title: Stri
             last_name,
             extension,
             title,
-            department
+            department,
         };
         let bytes = rmp_serde::to_vec(&employee).unwrap();
         bucket.put(id.to_le_bytes(), bytes)?;
@@ -26,7 +26,7 @@ pub fn put(first_name: String, last_name: String, extension: String, title: Stri
     }
 }
 
-pub fn get(id: u64) -> Result<Employee, Error> {
+pub fn get(id: u64) -> Result<Employee<'static>, Error> {
     let db = DB::open("database.db")?;
     let mut tx = db.tx(false)?;
     let bucket = tx.get_bucket("employees")?;
@@ -44,7 +44,7 @@ pub fn get(id: u64) -> Result<Employee, Error> {
     }
 }
 
-pub fn list() -> Result<Vec<Employee>, Error>{
+pub fn list() -> Result<Vec<Employee<'static>>, Error>{
         let db = DB::open("database.db")?;
         let mut tx = db.tx(false)?;
         let bucket = tx.get_bucket("employees")?;
@@ -62,16 +62,16 @@ pub fn list() -> Result<Vec<Employee>, Error>{
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-pub struct Employee {
+pub struct Employee<'a> {
     id: u64,
     first_name: String,
     last_name: String,
     extension: String,
     title: String,
-    department: Option<Department>,
+    department: &'a Department<'a>,
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-pub struct EmployeeList {
-    pub(crate) employees: Vec<Employee>,
+pub struct EmployeeList<'a> {
+    pub(crate) employees: Vec<Employee<'a>>,
 }
