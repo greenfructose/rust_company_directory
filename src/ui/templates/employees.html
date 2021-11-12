@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Employees will go here</h1>
-{% for employee in employees %}
-<p>{{ employee.first_name }}</p>
-{% endfor %}
+<div class="d-flex p-2 bd-highlight justify-content-center ">
+    <div class="row p-5">
+        {% for employee in employees %}
+        <div class="col">
+            <div class="card m-3" style="width: 18rem;">
+              <div class="card-body btn-secondary">
+                <h5 class="card-title">{{ employee.first_name }} {{ employee.last_name }}</h5>
+                <p class="card-text">Title: {{employee.title}}</p>
+                <p class="card-text">Department: {{employee.department}}</p>
+                <p class="card-text">Extension: {{employee.extension}}</p>
+                <a href="#" class="btn btn-light">View Profile</a>
+                <a href="#" class="btn btn-dark">Delete</a>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}

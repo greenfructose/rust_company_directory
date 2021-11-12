@@ -2,12 +2,14 @@
 
 {% block content %}
 <div class="d-flex p-2 bd-highlight justify-content-center">
-    <div class="row">
+    <div class="row p-5">
         {% for department in departments %}
         <div class="col">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
+            <div class="card m-3" style="width: 18rem;">
+              <div class="card-body btn-secondary">
                 <h5 class="card-title">{{ department.name }}</h5>
+                <a href="#" class="btn btn-light">View Department</a>
+                <a href="#" class="btn btn-dark">Delete</a>
               </div>
             </div>
         </div>

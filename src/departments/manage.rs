@@ -26,7 +26,7 @@ pub fn put(name: String, employees: Option<EmployeeList>) -> Result<(), Error>{
     }
 }
 
-pub fn get(id: u64) -> Result<Department<'static>, Error> {
+pub fn get(id: u64) -> Result<Department, Error> {
     let db = DB::open("database.db")?;
     let mut tx = db.tx(false)?;
     let bucket = tx.get_bucket("departments")?;
@@ -44,7 +44,7 @@ pub fn get(id: u64) -> Result<Department<'static>, Error> {
     }
 }
 
-pub fn list() -> Result<Vec<Department<'static>>, Error>{
+pub fn list() -> Result<Vec<Department>, Error>{
         let db = DB::open("database.db")?;
         let mut tx = db.tx(false)?;
         let bucket = tx.get_bucket("departments")?;
@@ -62,17 +62,15 @@ pub fn list() -> Result<Vec<Department<'static>>, Error>{
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-pub struct Department<'a, T: 'a> {
+pub struct Department {
     id: u64,
-    name: String,
-    employees: Option<EmployeeList<'static>>,
-    phantom: PhantomData<&'a T>,
+    pub name: String,
+    employees: Option<EmployeeList>,
 
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
-pub struct DepartmentList<'a, T: 'a> {
-    pub(crate) departments: Vec<Department<&'static>>,
-    phantom: PhantomData<&'a T>,
+pub struct DepartmentList {
+    pub(crate) departments: Vec<Department>,
 }
 
