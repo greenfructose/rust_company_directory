@@ -1,4 +1,4 @@
-mod employees;
 mod departments;
+mod employees;
 mod ui;
 mod users;

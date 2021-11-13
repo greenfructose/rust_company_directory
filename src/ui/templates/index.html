@@ -1,33 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="d-flex p-2 bd-highlight justify-content-center">
-    <div class="row p-5">
-        <div class="col">
-            <div class="card m-3" style="width: 18rem;">
-              <div class="card-body btn-secondary">
-                <h5 class="card-title">Employees</h5>
-                <p class="card-text">Click below to see a list of employees and their departments.</p>
-                <a href="/employees" class="btn btn-dark">Employees</a>
-              </div>
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5">Welcome. Please choose an option.</h1>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                <div class="card m-3" style="min-width: 50%;">
+                  <div class="card-body btn-secondary rounded">
+                    <h5 class="card-title">Employees</h5>
+                      <hr class="my-4">
+                    <p class="card-text">Click below to see a list of employees.</p>
+                    <a href="/employees" class="btn btn-dark">Employees</a>
+                  </div>
+                </div>
             </div>
-        </div>
-       <div class="col">
-            <div class="card m-3" style="width: 18rem;">
-              <div class="card-body btn-secondary">
-                <h5 class="card-title">Departments</h5>
-                <p class="card-text">Click below to see a list of departments and their employees.</p>
-                <a href="/departments" class="btn btn-dark">Departments</a>
-              </div>
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                <div class="card m-3" style="min-width: 50%;">
+                  <div class="card-body btn-secondary rounded">
+                    <h5 class="card-title">Users</h5>
+                      <hr class="my-4">
+                    <p class="card-text">Click below to see a list of users and their roles.</p>
+                    <a href="/users" class="btn btn-dark">Users</a>
+                  </div>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="card m-3" style="width: 18rem;">
-              <div class="card-body btn-secondary">
-                <h5 class="card-title">Users</h5>
-                <p class="card-text">Click below to see a list of Users.</p>
-                <a href="/users" class="btn btn-dark">Users</a>
-              </div>
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                <div class="card m-3" style="min-width: 50%;">
+                  <div class="card-body btn-secondary rounded">
+                    <h5 class="card-title">Departments</h5>
+                      <hr class="my-4">
+                    <p class="card-text">Click below to see a list departments.</p>
+                    <a href="/departments" class="btn btn-dark">Departments</a>
+                  </div>
+                </div>
             </div>
         </div>
     </div>
