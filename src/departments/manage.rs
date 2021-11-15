@@ -6,13 +6,13 @@ use jammdb::{Data, Error, DB};
 use rmp_serde::{Deserializer, Serializer};
 use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
-use postgres::{Connection};
+use postgres::Client;
 
 
 // Postgres functions
 pub fn put(name: String,) -> Result<(), Error> {
-    let conn = get_db_connection().unwrap();
-    let transaction = conn.transaction().unwrap();
+    let mut conn = get_db_connection().unwrap();
+    let mut transaction = conn.transaction().unwrap();
     transaction.batch_execute("
         CREATE TABLE [IF NOT EXISTS] department (
         id SERIAL PRIMARY KEY,
@@ -27,7 +27,7 @@ pub fn put(name: String,) -> Result<(), Error> {
 }
 
 pub fn get(id: i32) -> Result<Department, Error> {
-    let conn = get_db_connection().unwrap();
+    let mut conn = get_db_connection().unwrap();
     let mut name: String = "".to_string();
     for row in &conn.query("
         SELECT name FROM department WHERE ID = $1

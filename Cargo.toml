@@ -19,6 +19,6 @@ webbrowser = "0.5.5"
 csv = "1.1"
 rand = "0.8.4"
 configparser = "3.0.0"
-postgres = { version = "*", features = ["with-chrono", "with-openssl"] }
-chrono = "*"
-openssl = { version = "0.10", features = ["vendored"] }
+tokio-postgres = "0.7.5"
+native-tls = "0.2.8"
+postgres-native-tls = "0.5.0"
