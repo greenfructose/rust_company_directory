@@ -2,6 +2,8 @@ mod departments;
 mod employees;
 mod ui;
 mod users;
+mod config;
+mod db;
 use csv;
 use rand;
 use rand::seq::SliceRandom;
@@ -13,7 +15,7 @@ use webbrowser;
 // use rust_company_directory::users::manage::Role::SuperAdmin;
 
 fn main() {
-    // generate_mock_data();
+    generate_mock_data();
     webbrowser::open("http://127.0.0.1:8080");
     ui::server::main();
 }
@@ -27,14 +29,14 @@ fn generate_mock_data() {
     //     "Director".to_string(),
     //     "Sales".to_string(),
     // ];
-    // let depts: [String; 6] = [
-    //     "Administration".to_string(),
-    //     "Marketing".to_string(),
-    //     "Sales".to_string(),
-    //     "Production".to_string(),
-    //     "Maintenance".to_string(),
-    //     "I.T.".to_string(),
-    // ];
+    let depts: [String; 6] = [
+        "Administration".to_string(),
+        "Marketing".to_string(),
+        "Sales".to_string(),
+        "Production".to_string(),
+        "Maintenance".to_string(),
+        "I.T.".to_string(),
+    ];
     // let mut reader = csv::Reader::from_path("./src/MOCK_DATA.csv");
     // let mut x = 0;
     // for result in reader.unwrap().records() {
@@ -58,7 +60,7 @@ fn generate_mock_data() {
     //     }
     //     x += 1;
     // }
-    // for dept in depts {
-    // departments::manage::put(dept.to_string(), None);
-    // }
+    for dept in depts {
+    departments::manage::put(dept.to_string());
+    }
 }

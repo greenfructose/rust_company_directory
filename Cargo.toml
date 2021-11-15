@@ -21,4 +21,4 @@ rand = "0.8.4"
 configparser = "3.0.0"
 postgres = { version = "*", features = ["with-chrono", "with-openssl"] }
 chrono = "*"
-openssl = "*"
+openssl = { version = "0.10", features = ["vendored"] }
