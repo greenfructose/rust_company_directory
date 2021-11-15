@@ -23,3 +23,9 @@ Cargo.lock
 
 # Databse
 **/*.db
+
+# Config
+**/config.ini
+
+# SSL
+*.pem

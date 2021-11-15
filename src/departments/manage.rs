@@ -6,6 +6,7 @@ use rmp_serde::{Deserializer, Serializer};
 use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
 
+
 pub fn put(name: String, employees: Option<EmployeeList>) -> Result<(), Error> {
     {
         let db = DB::open("database.db")?;
