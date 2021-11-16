@@ -2,17 +2,16 @@
 
 use crate::employees::manage::{Employee, EmployeeList};
 use crate::db::manage::get_db_connection;
-use jammdb::{Data, Error, DB};
 use rmp_serde::{Deserializer, Serializer};
 use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
-use postgres::Client;
+use postgres::{Client, Error};
 
 
 // Postgres functions
 pub fn put(name: String,) -> Result<(), Error> {
-    let mut conn = get_db_connection().unwrap();
-    let mut transaction = conn.transaction().unwrap();
+    let mut client = get_db_connection().unwrap();
+    let mut transaction = client.transaction().unwrap();
     transaction.batch_execute("
         CREATE TABLE [IF NOT EXISTS] department (
         id SERIAL PRIMARY KEY,
@@ -22,14 +21,14 @@ pub fn put(name: String,) -> Result<(), Error> {
     transaction.execute("
         INSERT INTO department (name) VALUES ($1)
     ", &[&name])?;
-    transaction.commit().unwrap();
+    transaction.commit()?;
     Ok(())
 }
 
 pub fn get(id: i32) -> Result<Department, Error> {
-    let mut conn = get_db_connection().unwrap();
+    let mut client = get_db_connection().unwrap();
     let mut name: String = "".to_string();
-    for row in &conn.query("
+    for row in &client.query("
         SELECT name FROM department WHERE ID = $1
     ", &[&id]).unwrap(){
         name = row.get("name");
@@ -81,17 +80,19 @@ pub fn get(id: i32) -> Result<Department, Error> {
 // }
 
 pub fn list() -> Result<Vec<Department>, Error> {
-    let db = DB::open("database.db")?;
-    let mut tx = db.tx(false)?;
-    let bucket = tx.get_bucket("departments")?;
+    let mut client = get_db_connection().unwrap();
     let mut departments = Vec::new();
-    for data in bucket.cursor() {
-        if data.is_kv() {
-            let kv = data.kv();
-            let department: Department = rmp_serde::from_slice(kv.value()).unwrap();
+    for row in &client.query(
+        "SELECT id, name FROM department",
+        &[])? {
+            let id = row.get(0);
+            let name= row.get(1);
+            let department = Department {
+                id,
+                name,
+            };
             departments.push(department);
         }
-    }
     {
         Ok((departments))
     }
