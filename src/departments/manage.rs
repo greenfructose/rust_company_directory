@@ -1,8 +1,5 @@
 use crate::employees::manage::{Employee, EmployeeList};
 use crate::db::manage::get_db_connection;
-use rmp_serde::{Deserializer, Serializer};
-use serde::{Deserialize, Serialize};
-use std::marker::PhantomData;
 use postgres::{Client, Error};
 
 
@@ -60,13 +57,13 @@ pub async fn list() -> Result<Vec<Department>, Error> {
     }
 }
 
-#[derive(Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, PartialEq)]
 pub struct Department {
     pub id: Option<i32>,
     pub name: String,
 }
 
-#[derive(Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, PartialEq)]
 pub struct DepartmentList {
     pub departments: Vec<Department>,
 }

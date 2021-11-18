@@ -2,8 +2,6 @@ use crate::employees::manage::Employee;
 use crate::db::manage::get_db_connection;
 use postgres::{Client, Error};
 use pwhash::bcrypt;
-use rmp_serde::{Deserializer, Serializer};
-use serde::{Deserialize, Serialize};
 use postgres_types::{ToSql, FromSql};
 use std::{fmt, iter};
 use std::fmt::Formatter;
@@ -125,7 +123,7 @@ pub fn get_it() -> Result<(), Error> {
     Ok(())
 }
 
-#[derive(Debug, ToSql, FromSql, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, ToSql, FromSql, PartialEq)]
 pub struct User {
     pub id: Option<i32>,
     pub first_name: String,
@@ -138,7 +136,7 @@ pub struct User {
 pub(crate) struct UserList {
     pub users: Vec<User>,
 }
-#[derive(Debug, ToSql, FromSql, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, ToSql, FromSql, PartialEq)]
 pub enum Role {
     User,
     Admin,
