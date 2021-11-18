@@ -33,50 +33,13 @@ pub fn get(id: i32) -> Result<Department, Error> {
         name = row.get("name");
     }
     let department = Department{
-        id,
+        id: Some(id),
         name,
     };
     Ok(department)
 }
 
-// jammdb functions
 
-// pub fn put(name: String, employees: Option<EmployeeList>) -> Result<(), Error> {
-//     {
-//         let db = DB::open("database.db")?;
-//         let mut tx = db.tx(true)?;
-//         let bucket = tx.get_or_create_bucket("departments")?;
-//         let id = bucket.next_int();
-//         let mut department = Department {
-//             id,
-//             name,
-//             employees,
-//         };
-//         let bytes = rmp_serde::to_vec(&department).unwrap();
-//         bucket.put(id.to_le_bytes(), bytes)?;
-//         tx.commit()?;
-//         println!("Added department: {}", department.name);
-//     }
-//     {
-//         Ok(())
-//     }
-// }
-
-// pub fn get(id: u64) -> Result<Department, Error> {
-//     let db = DB::open("database.db")?;
-//     let mut tx = db.tx(false)?;
-//     let bucket = tx.get_bucket("departments")?;
-//     match bucket.get(&id.to_le_bytes()) {
-//         Some(data) => match &*data {
-//             Data::KeyValue(kv) => {
-//                 let department: Department = rmp_serde::from_slice(kv.value()).unwrap();
-//                 Ok(department)
-//             }
-//             _ => Err(Error::KeyValueMissing),
-//         },
-//         None => Err(Error::KeyValueMissing),
-//     }
-// }
 
 pub fn list() -> Result<Vec<Department>, Error> {
     let mut client = get_db_connection().unwrap();
@@ -87,23 +50,23 @@ pub fn list() -> Result<Vec<Department>, Error> {
             let id = row.get(0);
             let name= row.get(1);
             let department = Department {
-                id,
+                id: Some(id),
                 name,
             };
             departments.push(department);
         }
     {
-        Ok((departments))
+        Ok(departments)
     }
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct Department {
-    pub id: i32,
+    pub id: Option<i32>,
     pub name: String,
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct DepartmentList {
-    pub(crate) departments: Vec<Department>,
+    pub departments: Vec<Department>,
 }

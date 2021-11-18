@@ -24,3 +24,4 @@ native-tls = "0.2.8"
 postgres-native-tls = "0.5.0"
 openssl = "0.10.38"
 postgres-openssl = "0.5.0"
+postgres-types = { version = "0.2.2", features = ["derive"] }

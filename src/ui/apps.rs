@@ -24,6 +24,7 @@ pub async fn employees(data: web::Data<AppData>, req: HttpRequest) -> impl Respo
     let departments = DepartmentList {
         departments: departments::manage::list().unwrap(),
     };
+    println!("{:?}", employees);
     ctx.insert("employees", &employees.employees);
     ctx.insert("departments", &departments.departments);
     let rendered = data.tmpl.render("employees.html", &ctx).unwrap();
@@ -32,6 +33,8 @@ pub async fn employees(data: web::Data<AppData>, req: HttpRequest) -> impl Respo
 
 pub async fn users(data: web::Data<AppData>, req: HttpRequest) -> impl Responder {
     let mut ctx = Context::new();
+    println!("Getting users...");
+    println!("{:?}", users::manage::list().unwrap());
     let users = UserList {
         users: users::manage::list().unwrap(),
     };
