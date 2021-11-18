@@ -1,5 +1,3 @@
-// bookmark https://crates.io/crates/jammdb
-
 use crate::employees::manage::{Employee, EmployeeList};
 use crate::db::manage::get_db_connection;
 use rmp_serde::{Deserializer, Serializer};
@@ -11,18 +9,18 @@ use postgres::{Client, Error};
 // Postgres functions
 pub fn put(name: String,) -> Result<(), Error> {
     let mut client = get_db_connection().unwrap();
-    let mut transaction = client.transaction().unwrap();
-    transaction.execute("
-        CREATE TABLE [IF NOT EXISTS] department (
+    println!("Create departments table if not exist ... ");
+    client.batch_execute("
+        CREATE TABLE IF NOT EXISTS department (
         id SERIAL PRIMARY KEY,
         name TEXT NOT NULL
         )
-    ", &[])?;
-    transaction.execute("
-        INSERT INTO department (name) VALUES ($1)
-    ", &[&name])?;
-    println!("Added department: {}", name);
-    transaction.commit()?;
+    ")?;
+    let statement = client.prepare("INSERT INTO department (name) VALUES ($1)")?;
+    let rows_updated = client.execute(
+        &statement,
+        &[&name])?;
+    println!("Added department: {}, {} rows affected.", name, rows_updated);
     Ok(())
 }
 

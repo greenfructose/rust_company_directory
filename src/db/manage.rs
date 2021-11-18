@@ -8,6 +8,7 @@ use std::error::Error;
 
 // Get DB connection
 pub fn get_db_connection() -> Result<Client, Box<dyn Error>> {
+    println!("Loading DB Config ...");
     let config = get_db_config();
     let root_crt_file = config.get("root_crt").unwrap().as_ref().unwrap();
     let client_crt = config.get("client_crt").unwrap().as_ref().unwrap();
@@ -19,9 +20,11 @@ pub fn get_db_connection() -> Result<Client, Box<dyn Error>> {
     builder.set_private_key_file(key_file, SslFiletype::PEM)?;
     let connector = MakeTlsConnector::new(builder.build());
     let connection_string = config.get("connection_string").unwrap().as_ref().unwrap();
+    println!("Building client ...");
     let client = Client::connect(
         connection_string,
         connector
     ).unwrap();
+    println!("Done!");
     Ok(client)
 }

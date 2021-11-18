@@ -60,7 +60,9 @@ fn generate_mock_data() {
     //     }
     //     x += 1;
     // }
+    println!("Adding mock departments ...");
     for dept in depts {
     departments::manage::put(dept.to_string());
     }
+    println!("Done!");
 }
