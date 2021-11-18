@@ -12,15 +12,16 @@ use postgres::{Client, Error};
 pub fn put(name: String,) -> Result<(), Error> {
     let mut client = get_db_connection().unwrap();
     let mut transaction = client.transaction().unwrap();
-    transaction.batch_execute("
+    transaction.execute("
         CREATE TABLE [IF NOT EXISTS] department (
         id SERIAL PRIMARY KEY,
         name TEXT NOT NULL
         )
-    ")?;
+    ", &[])?;
     transaction.execute("
         INSERT INTO department (name) VALUES ($1)
     ", &[&name])?;
+    println!("Added department: {}", name);
     transaction.commit()?;
     Ok(())
 }

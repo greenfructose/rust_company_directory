@@ -29,3 +29,5 @@ Cargo.lock
 
 # SSL
 *.pem
+/src/postgresql.crt
+/src/postgresql.key
