@@ -8,6 +8,7 @@ use std::fmt::Formatter;
 use std::str::FromStr;
 use rand::{Rng, thread_rng};
 use rand::distributions::Alphanumeric;
+use serde::{Deserialize, Serialize};
 
 pub fn put(users: Vec<User>) -> Result<(), Error> {
     let mut client = get_db_connection().unwrap();
@@ -60,7 +61,7 @@ pub fn get(id: i32) -> Result<User, Error> {
     };
     Ok(user)
 }
-pub async fn list() -> Result<Vec<User>, Error> {
+pub fn list() -> Result<Vec<User>, Error> {
     let mut client = get_db_connection().unwrap();
     let mut users = Vec::new();
     for row in &client.query(
@@ -123,7 +124,7 @@ pub fn get_it() -> Result<(), Error> {
     Ok(())
 }
 
-#[derive(Debug, ToSql, FromSql, PartialEq)]
+#[derive(Debug, ToSql, FromSql, PartialEq, Serialize, Deserialize)]
 pub struct User {
     pub id: Option<i32>,
     pub first_name: String,
@@ -132,11 +133,11 @@ pub struct User {
     pub password: Option<String>,
     pub role: Role,
 }
-#[derive(Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub(crate) struct UserList {
     pub users: Vec<User>,
 }
-#[derive(Debug, ToSql, FromSql, PartialEq)]
+#[derive(Debug, ToSql, FromSql, PartialEq, Serialize, Deserialize)]
 pub enum Role {
     User,
     Admin,

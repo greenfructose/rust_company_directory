@@ -1,6 +1,7 @@
 use crate::departments::manage::Department;
 use crate::db::manage::get_db_connection;
 use postgres::{Client, Error};
+use serde::{Deserialize, Serialize};
 
 pub fn put(employees: Vec<Employee>) -> Result<(), Error> {
     let mut client = get_db_connection().unwrap();
@@ -54,7 +55,7 @@ pub fn get(id: i32) -> Result<Employee, Error> {
     Ok(employee)
 }
 
-pub async fn list() -> Result<Vec<Employee>, Error> {
+pub fn list() -> Result<Vec<Employee>, Error> {
     let mut client = get_db_connection().unwrap();
     let mut employees = Vec::new();
     for row in &client.query(
@@ -80,7 +81,7 @@ pub async fn list() -> Result<Vec<Employee>, Error> {
 }
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Employee {
     pub id: Option<i32>,
     pub first_name: String,
@@ -90,7 +91,7 @@ pub struct Employee {
     pub department: String,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct EmployeeList {
     pub employees: Vec<Employee>,
 }
