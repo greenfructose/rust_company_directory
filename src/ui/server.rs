@@ -2,6 +2,7 @@ use crate::ui::apps::{departments, employees, index, users};
 use actix_files as fs;
 use actix_web::{web, App, HttpServer};
 use actix_web_grants::GrantsMiddleware;
+use actix_web::middleware::Logger;
 use tera::Tera;
 // use crate::ui::middleware::{extract};
 

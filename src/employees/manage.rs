@@ -57,7 +57,7 @@ pub fn get(id: i32) -> Result<Employee, Error> {
     Ok(employee)
 }
 
-pub fn list() -> Result<Vec<Employee>, Error> {
+pub async fn list() -> Result<Vec<Employee>, Error> {
     let mut client = get_db_connection().unwrap();
     let mut employees = Vec::new();
     for row in &client.query(

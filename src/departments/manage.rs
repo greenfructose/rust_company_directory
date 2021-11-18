@@ -41,7 +41,7 @@ pub fn get(id: i32) -> Result<Department, Error> {
 
 
 
-pub fn list() -> Result<Vec<Department>, Error> {
+pub async fn list() -> Result<Vec<Department>, Error> {
     let mut client = get_db_connection().unwrap();
     let mut departments = Vec::new();
     for row in &client.query(

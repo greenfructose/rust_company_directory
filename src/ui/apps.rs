@@ -19,10 +19,10 @@ pub async fn index(data: web::Data<AppData>, req: HttpRequest) -> impl Responder
 pub async fn employees(data: web::Data<AppData>, req: HttpRequest) -> impl Responder {
     let mut ctx = Context::new();
     let employees = EmployeeList {
-        employees: employees::manage::list().unwrap(),
+        employees: employees::manage::list().await.unwrap(),
     };
     let departments = DepartmentList {
-        departments: departments::manage::list().unwrap(),
+        departments: departments::manage::list().await.unwrap(),
     };
     println!("{:?}", employees);
     ctx.insert("employees", &employees.employees);
@@ -33,10 +33,8 @@ pub async fn employees(data: web::Data<AppData>, req: HttpRequest) -> impl Respo
 
 pub async fn users(data: web::Data<AppData>, req: HttpRequest) -> impl Responder {
     let mut ctx = Context::new();
-    println!("Getting users...");
-    println!("{:?}", users::manage::list().unwrap());
     let users = UserList {
-        users: users::manage::list().unwrap(),
+        users: users::manage::list().await.unwrap(),
     };
     ctx.insert("users", &users.users);
     let rendered = data.tmpl.render("users.html", &ctx).unwrap();
@@ -46,7 +44,7 @@ pub async fn users(data: web::Data<AppData>, req: HttpRequest) -> impl Responder
 pub async fn departments(data: web::Data<AppData>, req: HttpRequest) -> impl Responder {
     let mut ctx = Context::new();
     let departments = DepartmentList {
-        departments: departments::manage::list().unwrap(),
+        departments: departments::manage::list().await.unwrap(),
     };
     ctx.insert("departments", &departments.departments);
     let rendered = data.tmpl.render("departments.html", &ctx).unwrap();
